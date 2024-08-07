@@ -27,6 +27,14 @@ app.post("/cards", (req, res) => {
   res.send({ title, text, image, type });
 });
 
+app.put("/cards", (req, res) => {
+  const cards = req.body
+
+  fs.writeFileSync("./data/cards.json", JSON.stringify(cards, null, 2));
+
+  res.status(200).send({message: "Все готово"})
+})
+
 app.listen(PORT, () => {
   console.log("Server started on port 3000");
 });
