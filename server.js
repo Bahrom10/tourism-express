@@ -34,6 +34,33 @@ app.put("/cards", (req, res) => {
 
   res.status(200).send({message: "Все готово"})
 })
+app.get("/tops", (req, res) => {
+  const rawdata = fs.readFileSync("./data/tops.json");
+  const tops = JSON.parse(rawdata);
+  res.send({ tops });
+});
+
+app.post("/tops", (req, res) => {
+  const { title, text, image, type } = req.body;
+
+  const rawdata = fs.readFileSync("./data/tops.json");
+  const tops = JSON.parse(rawdata);
+  console.log(tops);
+  console.log(rawdata);
+
+  tops.push({ title, text, image, type });
+  fs.writeFileSync("./data/tops.json", JSON.stringify(tops, null, 2));
+
+  res.send({ title, text, image, type });
+});
+
+app.put("/tops", (req, res) => {
+  const tops = req.body
+
+  fs.writeFileSync("./data/tops.json", JSON.stringify(tops, null, 2));
+
+  res.status(200).send({message: "Все готово"})
+})
 
 app.listen(PORT, () => {
   console.log("Server started on port 3000");
